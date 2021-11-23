@@ -33,25 +33,26 @@ Eighth: Connect the head to the post with a "noose." Once you draw the noose the
 const word = wordArr[0]; //wordArr is in words.js
 console.log(word);
 
+// import array of hangman images
+const imageUrlArr0 = ["./images/0.svg"];
+const imageUrlArr = ["./images/0.svg", "./images/1.svg", "./images/2.svg", "./images/3.svg", "./images/4.svg", "./images/5.svg",
+  "./images/6.svg", "./images/7.svg", "./images/8.svg", "./images/9.svg"]
 
 //create frontend interface, a panel with all letters of the English alphabet 
 const lettersArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
   'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
   'Y', 'Z'];
 
+// frontend for keys
 const letterPosition = document.querySelector(".letter-buttons");
-const pickedLetter = document.querySelector(".container1");
-const hungMan = document.querySelector(".container2");
+// frontend for displaying chosen letter
+const pickedLetter = document.querySelector(".container2");
+// frontend for showing hangman images
+const hungMan = document.querySelector(".container1");
+// frontend for showing underscore-placeholders for word
+const wordDisplay = document.querySelector(".container3");
 //lettersArr.forEach(letter => letterPosition.innerHTML += letter);
 
-lettersArr.map((item) => {
-  const button = document.createElement("button");
-  letterPosition.appendChild(button);
-  button.innerHTML = item;
-  button.addEventListener("click", () => {
-    pickedLetter.innerHTML = item;;
-  });
-});
 
 
 //const wordArr2 = ['whatever','something else']; // for testing
@@ -59,27 +60,36 @@ lettersArr.map((item) => {
 // reveal chosen word
 //el.innerHTML += `${wordArr[1]} ${returnRndWord(wordArr)} `;
 
+//helper function to get retrieve clicked chars
+function getClickedChars() {
+  //get text from html element
+  let text = document.querySelector('.container2').textContent.trim(); //trim() to remove white space
+  return text.slice(-1); //slice -1 to get last char
+  
+}
+
+function replacePlaceholder(word, clickedChar){
+  word.includes(clickedChar) ? console.log('is in word') : console.log('sorry, not present');
+}
 
 
-
-function revealChosenWord() {
+function displayPlaceholder(rndWord) {
   //code here
-  const el = document.querySelector(".container2");
-  el.innerHTML += `${wordArr[1]} ${returnRndWord(wordArr)} `;
+  const el = document.querySelector(".container3");
+  const chosenWord = rndWord;
+  const regex = /\D/ig;  //\D is a wildcard for any non-digit char
+  const placeholder = chosenWord.replaceAll(regex, '_ ');
+  //el.innerHTML += `${wordArr[1]} ${returnRndWord(wordArr)} `;
+  el.innerHTML += placeholder;
+
 }
 
 //select random word from loaded word dict
 function returnRndWord(arr) {
   //code here
-  let rndIndex = Math.floor(Math.random() * arr.length);
+  const rndIndex = Math.floor(Math.random() * arr.length);
   return arr[rndIndex];
 }
-
-const imageUrlArr0 = ["./images/0.svg"];
-const imageUrlArr = ["./images/0.svg", "./images/1.svg", "./images/2.svg", "./images/3.svg", "./images/4.svg", "./images/5.svg",
-  "./images/6.svg", "./images/7.svg", "./images/8.svg", "./images/9.svg"]
-
-displayCartoon(imageUrlArr);
 
 function displayCartoon(imgArr) {
   // CODE HERE{
@@ -96,10 +106,29 @@ function displayCartoon(imgArr) {
 
 function advanceHangMan(imageUrlArr, wrongGuessCount) {
   //code here
+  
 }
 
 
+//main program loop
 
-  //display corresponding hangman images
+//create keyboard and reveal clicked characters
+lettersArr.map((item) => {
+  const button = document.createElement("button");
+  letterPosition.appendChild(button);
+  button.innerHTML = item;
+  button.addEventListener("click", () => {
+    pickedLetter.innerHTML += item;
+    //console.log(pickedLetter);
+    console.log(getClickedChars());
+    // replace _ with Char if present
 
-  // CODE HERE
+  });
+});
+
+displayCartoon(imageUrlArr);
+displayPlaceholder(returnRndWord(wordArr));
+//console.log(getClickedChars());
+
+
+
