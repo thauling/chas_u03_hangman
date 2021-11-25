@@ -121,7 +121,7 @@ function replacePlaceholder(char='#', rndWord) {
 };              // replace _ with char at idxs in indexArr
   el.innerHTML = placeholderArr;
 
-  //look up map!
+  //
 
 }
 
@@ -237,5 +237,7 @@ function replacePlaceholder(char='#', rndWord) {
 //debuggin end
 
 //need to add functionality for displaying correctly guessed chars and word!!
+
+// could return indies plus char fro every key press and retrun from func, save in obj
 
 
