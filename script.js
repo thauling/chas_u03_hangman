@@ -28,9 +28,10 @@ Seventh: Draw the other leg.
 Eighth: Connect the head to the post with a "noose." Once you draw the noose the players have lost the game.
 */
 
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// GLLOBAL VARIABLES AND CONSTANTS
 // import word from words.js to test if import works
-const word = wordArr[0]; //wordArr is in words.js
+//const word = wordArr[0]; //wordArr is in words.js
 //console.log(word);
 
 // import array of hangman images
@@ -44,6 +45,9 @@ const lettersArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
   'Y', 'Z'];
 
 let wrongGuessCount = 0;
+let chars = [];
+let selectedWord = returnRndWord(wordArr);
+//let selectedWordArr = Array.from(selectedWord);
 
 // frontend for keys
 const letterPosition = document.querySelector(".letter-buttons");
@@ -201,11 +205,9 @@ function replacePlaceholder(char='#', rndWord) {
     };
   }; */
 
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //main program loop, let instead of const so they can be reset
-  let chars = [];
-  let selectedWord = returnRndWord(wordArr);
-  //let selectedWordArr = Array.from(selectedWord);
-
+  
   //show initial cartoon (0 wrong Guesses)
   displayCartoon(imageUrlArr0);
   //show placeholder for randomly chosen word
