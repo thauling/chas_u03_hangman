@@ -66,7 +66,7 @@ const wordDisplay = document.querySelector(".container3");
 //helper function to get clicked chars
 function getClickedChars() {
   //get text from html element
-  let text = document.querySelector('.container2').textContent.trim(); //trim() to remove white space
+  let text = document.querySelector('.container2').textContent.trim(); //trim() to remove white space, shoudl use innerText instead to JUST get the text
   console.log(text, typeof (text));
   return text.slice(-1); //slice -1 to get last char
 
@@ -78,7 +78,7 @@ function displayPlaceholder(rndWord) {
   const chosenWord = rndWord;
   const regex = /\D/ig;  //\D is a wildcard for any non-digit char, same as [^0-9], ig: i: ignoreCase = True, g: global = True (all instances are replaced, not only first one)  
   const placeholder = chosenWord.replaceAll(regex, '_ ');
-  el.innerHTML = placeholder;
+  el.innerText = placeholder; //el.innerHTML
 
 }
 
@@ -115,7 +115,7 @@ function replacePlaceholder(char = '#', rndWord) {
   for (id of indexArr) {
     placeholderArr[id] = char;
   };              // replace _ with char at idxs in indexArr
-  el.innerHTML = placeholderArr;
+  el.innerText = placeholderArr; // el.innerHTML
   //guessWord(selectedWord);
 
   //
@@ -203,7 +203,7 @@ displayCartoon(imageUrlArr0);
 //start game, create keyboard and reveal clicked characters
 const button = document.createElement("button");
   gameButtons.appendChild(button);
-  button.innerHTML = 'Start';
+  button.innerText = 'Start';
   button.addEventListener("click", () => {
 initGame();
 //show placeholder for randomly chosen word
@@ -217,9 +217,9 @@ function initGame() {
 lettersArr.map((item) => {
   const button = document.createElement("button");
   letterPosition.appendChild(button);
-  button.innerHTML = item;
+  button.innerText = item;
   button.addEventListener("click", () => {
-    pickedLetter.innerHTML += item;
+    pickedLetter.innerText += item;
     //console.log(pickedLetter);
     const clickedChar = getClickedChars();
     console.log(clickedChar);
@@ -254,5 +254,7 @@ console.log(selectedWord);
 // could return indies plus char fro every key press and retrun from func, save in obj
 
 // add game init function!
+
+//guessWord should report incorrect guess! (only reports correct guess), have separate button for word guessing
 
 
