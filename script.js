@@ -49,7 +49,7 @@ const chars = [];
 let selectedWord = returnRndWord(wordArr);
 const userWordArr = [];
 const correctCharArr = [];
-//let selectedWordArr = Array.from(selectedWord);
+let selectedWordArr = Array.from(selectedWord);
 
 // frontend for keys
 const gameButtons = document.querySelector(".game-buttons");
@@ -168,105 +168,166 @@ function advanceHangMan(images, wrongGuesses) {
 
 //keeps track of word guesses and correctly guessed chars, returns WIN if all chars in word or word have been guessed 
 function guessWord(word) {
-  const userWord = window.prompt("Type word guess below or leave blank").toUpperCase();
-  console.log(userWord, word);
-  if (userWord === word) {
-    alert(`${userWord} is correct!`);
-    //repetition of ln157-58!!
-    const answer = Number(window.prompt("Wanna play again? Enter 1 for yes, anything else for no")); //should add ok button instead
-    answer === 1 ? resetGame() : alert("Bummer!"); // wrongGuesses = 0 : alert("Bummer!");
+  // e.preventDefault();
+  // const word = selectedWord;
+  const inputField = document.createElement("input");
+  gameButtons.append(inputField);
+  inputField.type = "text";
+  inputField.name = "inputGuess";
+  inputField.placeholder = "Guess the word!";
+  //inputField.style = "background-color: black"; //for testing
+  inputField.addEventListener('keypress', keypressHandler); //perhaps add submitBtn instead?
+}
+  //const userWord = window.prompt("Type word guess below or leave blank").toUpperCase();
 
-  } else {
-    userWordArr.push(userWord);
+  function keypressHandler(e) {
+    const userWord = e.target.value.toUpperCase();
+    console.log(userWord, selectedWord);
+
+    if (userWord === selectedWord) {
+      alert(`${userWord} is correct!`);
+      //repetition of ln157-58!!
+      const answer = Number(window.prompt("Wanna play again? Enter 1 for yes, anything else for no")); //should add ok button instead
+      answer === 1 ? resetGame() : alert("Bummer!"); // wrongGuesses = 0 : alert("Bummer!");
+
+    } else {
+      userWordArr.push(userWord);
+    };
+
+  }
+
+// needs work
+  function reportCorrectWord (e){
+    //checks correctly guessed chars, reports Correct if all chars have been guessed
+    
+    if (userWord === selectedWord) {
+      alert(`${userWord} is correct!`);
+      //repetition of ln157-58!!
+      const answer = Number(window.prompt("Wanna play again? Enter 1 for yes, anything else for no")); //should add ok button instead
+      answer === 1 ? resetGame() : alert("Bummer!"); // wrongGuesses = 0 : alert("Bummer!");
+
+    } else {
+      userWordArr.push(userWord);
+    };
+  }
+
+
+  //resets the game
+  function resetGame() {
+    /* wrongGuesses = 0;
+    chars = [];
+    selectedWord = returnRndWord(wordArr);
+    selectedWordArr = Array.from(selectedWord);
+    displayCartoon(imageUrlArr0);
+    displayPlaceholder(selectedWord); */
+    location.reload();                            //refreshes the page, effective reset
+
   };
 
-}
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //main program loop, let instead of const so they can be reset
 
-//resets the game
-function resetGame() {
-  /* wrongGuesses = 0;
-  chars = [];
-  selectedWord = returnRndWord(wordArr);
-  selectedWordArr = Array.from(selectedWord);
+  //show initial cartoon (0 wrong Guesses)
   displayCartoon(imageUrlArr0);
-  displayPlaceholder(selectedWord); */
-  location.reload();                            //refreshes the page, effective reset
 
-};
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//main program loop, let instead of const so they can be reset
-
-//show initial cartoon (0 wrong Guesses)
-displayCartoon(imageUrlArr0);
-
-//start game, create keyboard and reveal clicked characters
-const button = document.createElement("button");
+  //start game, create keyboard and reveal clicked characters
+  const button = document.createElement("button");
   gameButtons.appendChild(button);
   button.innerText = 'Start';
   button.addEventListener("click", () => {
-initGame();
-//show placeholder for randomly chosen word
-displayPlaceholder(selectedWord);
-});
+    initGame();
+    //show placeholder for randomly chosen word
+    displayPlaceholder(selectedWord);
+  });
+  // const guessBtn = document.createElement('button');
+  // guessBtn.innerText = "Guess the word!";
+  // gameButtons.appendChild(guessBtn);
+  // gameButtons.addEventListener('click', guessWord);
+  //gameButtons.removeEventListener('click', guessWord);
 
 
 
-function initGame() {
-  
-lettersArr.map((item) => {
-  const button = document.createElement("button");
-  letterPosition.appendChild(button);
-  button.innerText = item;
-  button.addEventListener("click", mainPlay);
-  // button.addEventListener("click", () => {                //should move arrowfunc() into separate func(): ("click", buttonFunc)
-  //   pickedLetter.innerText += item;
-  //   //console.log(pickedLetter);
-  //   const clickedChar = getClickedChars();
-  //   console.log(clickedChar);
-  //   chars.push(clickedChar);
-  //   // replace _ with Char if present)
-  //   console.log(chars);
-  //   /* selectedWord.includes(clickedChar) ? replacePlaceholder(clickedChar, selectedWord) : //console.log('included in selectedWord')
-  //     wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount); */
-  //   if (selectedWord.includes(clickedChar)) {
-  //     replacePlaceholder(clickedChar, selectedWord);
-  //    // window.addEventListener('DOMContentLoaded', (event) => {
-  //    //   console.log('DOM fully loaded and parsed');
-  //       guessWord(selectedWord);                          //this executes BEFORE DOM is updated by replacePlaceholder
-  //    // });
+  function initGame() {
+    guessWord(selectedWord);                          //this executes BEFORE DOM is updated by replacePlaceholder
+    lettersArr.map((item) => {
+      const button = document.createElement("button");
+      letterPosition.appendChild(button);
+      button.innerText = item;
+      button.addEventListener("click", mainPlay);
+      // button.addEventListener("click", () => {                //should move arrowfunc() into separate func(): ("click", buttonFunc)
+      //   pickedLetter.innerText += item;
+      //   //console.log(pickedLetter);
+      //   const clickedChar = getClickedChars();
+      //   console.log(clickedChar);
+      //   chars.push(clickedChar);
+      //   // replace _ with Char if present)
+      //   console.log(chars);
+      //   /* selectedWord.includes(clickedChar) ? replacePlaceholder(clickedChar, selectedWord) : //console.log('included in selectedWord')
+      //     wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount); */
+      //   if (selectedWord.includes(clickedChar)) {
+      //     replacePlaceholder(clickedChar, selectedWord);
+      //    // window.addEventListener('DOMContentLoaded', (event) => {
+      //    //   console.log('DOM fully loaded and parsed');
+      //       guessWord(selectedWord);                          //this executes BEFORE DOM is updated by replacePlaceholder
+      //    // });
 
-//     } else {
-//       wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount);
-//     };
+      //     } else {
+      //       wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount);
+      //     };
 
-//   });
-});
+      //   });
+    });
 
-}
+  }
 
 
-function mainPlay(e) {
-  pickedLetter.innerText += e.target.innerText;//item; //e.target.innerText;
+  function mainPlay(e) {
+
+    pickedLetter.innerText += e.target.innerText;//item; //e.target.innerText;
     const clickedChar = getClickedChars();
     console.log(clickedChar);
     chars.push(clickedChar);
     // replace _ with Char if present)
     console.log(chars);
     if (selectedWord.includes(clickedChar)) {
+      console.log(`Congrats, my word does contain ${clickedChar}.`); //should output this in html
+      //store correct chars in global array
+      correctCharArr.push(clickedChar);
+      //compare content of correctCharArr with selectedWordArr, if identical report WIN!
+      checkWin(correctCharArr, selectedWordArr);
       replacePlaceholder(clickedChar, selectedWord);
-     // window.addEventListener('DOMContentLoaded', (event) => {
-     //   console.log('DOM fully loaded and parsed');
-        guessWord(selectedWord);                          //this executes BEFORE DOM is updated by replacePlaceholder
-     // });
+      // window.addEventListener('DOMContentLoaded', (event) => {
+      //   console.log('DOM fully loaded and parsed');
+      
+      // });
+
     } else {
+      console.log(`Sorry, there is no ${clickedChar} in my word.`); //should output this in html
       wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount);
     };
 
-}
-//for debugging purposes only
-console.log(selectedWord);
-console.dir(document);
+  }
+
+//this works
+  function checkWin(guessArr=correctCharArr, wordArr=selectedWordArr) {
+      //code
+      wordArr.every(e => guessArr.includes(e)) ? alert('Congrats, you guessed all characters') : console.log('loose');
+  }
+
+
+
+
+
+
+
+
+
+
+
+  /////////////////////////////////////////////////////////////////////
+  //for debugging purposes only
+  console.log(selectedWord);
+  console.dir(document);
   //console.log(selectedWordArr);
 //debuggin end
 
