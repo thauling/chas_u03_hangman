@@ -312,6 +312,8 @@ function guessWord(word) {
   function checkWin(guessArr=correctCharArr, wordArr=selectedWordArr) {
       //code
       wordArr.every(e => guessArr.includes(e)) ? alert('Congrats, you guessed all characters') : console.log('loose');
+      // could probably also use this:
+      // JSON.stringify(wordArr) === JSON.stringify(guessArr) ? ...
   }
 
 
@@ -338,5 +340,11 @@ function guessWord(word) {
 // add game init function!
 
 //guessWord should report incorrect guess! (only reports correct guess), have separate button for word guessing
+
+//fix placeholder display (show ALL correctly guessed chars at respective postions)!!
+
+//check removeEventListenr !
+
+//add highscore list
 
 
