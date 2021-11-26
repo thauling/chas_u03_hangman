@@ -218,34 +218,55 @@ lettersArr.map((item) => {
   const button = document.createElement("button");
   letterPosition.appendChild(button);
   button.innerText = item;
-  button.addEventListener("click", () => {
-    pickedLetter.innerText += item;
-    //console.log(pickedLetter);
+  button.addEventListener("click", mainPlay);
+  // button.addEventListener("click", () => {                //should move arrowfunc() into separate func(): ("click", buttonFunc)
+  //   pickedLetter.innerText += item;
+  //   //console.log(pickedLetter);
+  //   const clickedChar = getClickedChars();
+  //   console.log(clickedChar);
+  //   chars.push(clickedChar);
+  //   // replace _ with Char if present)
+  //   console.log(chars);
+  //   /* selectedWord.includes(clickedChar) ? replacePlaceholder(clickedChar, selectedWord) : //console.log('included in selectedWord')
+  //     wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount); */
+  //   if (selectedWord.includes(clickedChar)) {
+  //     replacePlaceholder(clickedChar, selectedWord);
+  //    // window.addEventListener('DOMContentLoaded', (event) => {
+  //    //   console.log('DOM fully loaded and parsed');
+  //       guessWord(selectedWord);                          //this executes BEFORE DOM is updated by replacePlaceholder
+  //    // });
+
+//     } else {
+//       wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount);
+//     };
+
+//   });
+});
+
+}
+
+
+function mainPlay(e) {
+  pickedLetter.innerText += e.target.innerText;//item; //e.target.innerText;
     const clickedChar = getClickedChars();
     console.log(clickedChar);
     chars.push(clickedChar);
     // replace _ with Char if present)
     console.log(chars);
-    /* selectedWord.includes(clickedChar) ? replacePlaceholder(clickedChar, selectedWord) : //console.log('included in selectedWord')
-      wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount); */
     if (selectedWord.includes(clickedChar)) {
       replacePlaceholder(clickedChar, selectedWord);
      // window.addEventListener('DOMContentLoaded', (event) => {
      //   console.log('DOM fully loaded and parsed');
         guessWord(selectedWord);                          //this executes BEFORE DOM is updated by replacePlaceholder
      // });
-
     } else {
       wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount);
     };
 
-  });
-});
 }
-
-
 //for debugging purposes only
 console.log(selectedWord);
+console.dir(document);
   //console.log(selectedWordArr);
 //debuggin end
 
