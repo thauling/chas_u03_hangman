@@ -202,7 +202,7 @@ function keypressHandler(e) {
 function resetGame() {
   const answer = Number(window.prompt("Wanna play again? Enter 1 for yes, anything else for no")); //should add ok button instead
   answer === 1 ? location.reload() : alert("Bummer!"); // wrongGuesses = 0 : alert("Bummer!");
-  
+
   //location.reload();                            //refreshes the page, effective reset
 
 };
@@ -238,7 +238,12 @@ button.addEventListener("click", gameArrowFunc);
 
 
 function initGame() {
+  //remove start button and its eventlistener since not needed any more
+  button.removeEventListener('click', gameArrowFunc);
+  button.remove();
+  //call guessWord() to show input filed for user guesses instead
   guessWord(selectedWord);
+  // create keyboard with alphabetic characters
   lettersArr.map((item) => {
     const button = document.createElement("button");
     letterPosition.appendChild(button);
@@ -251,11 +256,16 @@ function initGame() {
 
 
 function mainPlay(e) {
-
-  pickedLetter.innerText += e.target.innerText;//item; //e.target.innerText;
+  console.log(e.target.innerText);
+  pickedLetter.innerText = e.target.innerText;//item; //e.target.innerText; //displays ALL chars, leave in for now but remove later or just console.log it
   const clickedChar = getClickedChars();
   console.log(clickedChar);
-  chars.push(clickedChar);
+  if (chars.includes(clickedChar)) {
+    alert(`You have already used ${clickedChar}. There are ${lettersArr.length - chars.length} to choose from...`);
+  } else {
+    chars.push(clickedChar);
+    //pickedLetter.innerText = chars.toString();//item; //e.target.innerText; //this does NOT work, why?
+  };
   // replace _ with Char if present)
   console.log(chars);
   if (selectedWord.includes(clickedChar)) {
@@ -316,11 +326,15 @@ console.dir(document);
 //fix placeholder display (show ALL correctly guessed chars at respective postions)!! ALMOST works now, BUT Win alert shows before last placeholder is replace by correct char
 ////
 
+//report if character has been used! fixed!
+
+//in HTML, show chars array instead of ALL clicked chars !
+
 //show word if not guessed! fixd!
 
-//check removeEventListenr !
+//check removeEventListenr ! partially fixed (fixed for start button)
 
-//add let isGameOver = false; variable? 
+//add let isGameOver = false; variable?
 
 //add highscore list
 
