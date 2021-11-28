@@ -15,16 +15,23 @@ html {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
   font-size: 20px;
   height: 100%;
   overflow: hidden;
 }
 
+html body {
+  width: 95%;
+  color: white;
+  margin: 0 auto 0 auto;
+  height: 100%;
+  overflow: hidden;
+  /* display: flex;
+    justify-content: center; */
+}
+
 html img {
-  width: 100%;
+  width: 600px;
   height: auto;
 }
 
@@ -33,37 +40,63 @@ html button {
 }
 
 html div {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   max-width: 100%;
 }
 
 html .container1 {
   position: absolute;
   bottom: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
 }
 
 @media screen and (max-height: 800px) {
+  /*  body {
+    width: 95%;
+    color: white; //to test if mediaq works
+    margin: 0 auto 0 auto;
+    height: 100%;
+    overflow: hidden; */
   body {
     width: 95%;
-    color: white;
+    color: yellow;
     margin: 0 auto 0 auto;
     height: 100%;
     overflow: hidden;
+    /* display: flex;
+    justify-content: center; */
   }
-  body .container1 img {
-    width: 300px;
+  .container1 img {
+    width: 400px;
     height: auto;
   }
 }
 
 @media screen and (max-height: 500px) {
-  body {
-    color: red;
+  /* body {
+    color: red; //to test if mediaq works
+    //display: grid;
     width: 95%;
     margin: 0 auto 0 auto;
     height: 100%;
+    overflow: hidden; */
+  body {
+    width: 95%;
+    color: red;
+    margin: 0 auto 0 auto;
+    height: 100%;
     overflow: hidden;
+    /* display: flex;
+    justify-content: center; */
   }
-  body .button-container {
+  .button-container {
     -ms-grid-column: 1;
     -ms-grid-column-span: 2;
     grid-column: 1 / span 2;
@@ -72,26 +105,26 @@ html .container1 {
     grid-row: 1 / span 1;
     border: 1px solid;
   }
-  body .button-container h1 {
+  .button-container h1 {
     margin-top: 0px;
     padding-top: 0px;
   }
-  body .output-container {
+  .output-container {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
   }
-  body .output-container .container1 {
+  .output-container .container1 {
     /* grid-column: 1 / span 1;
       grid-row: 2 / span 1; */
     border: 1px solid;
     margin: 0 auto 0 auto;
   }
-  body .output-container .container1 img {
-    width: 200px;
+  .output-container .container1 img {
+    width: 250px;
     height: auto;
   }
-  body .output-container .textout-container {
+  .output-container .textout-container {
     /* grid-column: 2 / span 1;            //not working ideally, better use flex?
         grid-row: 2 / span 1; */
     border: 1px solid;
