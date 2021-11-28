@@ -94,7 +94,7 @@ function initGame() {
 
 function mainPlay(e) {
   console.log(e.target.innerText);
-  pickedLetter.innerText = e.target.innerText;//item; //e.target.innerText; //displays ALL chars, leave in for now but remove later or just console.log it
+  pickedLetter.innerHTML = `<p>Chosen letter: ${e.target.innerText}</p>`;//item; //e.target.innerText; //displays ALL chars, leave in for now but remove later or just console.log it
   const clickedChar = getClickedChars();
   console.log(clickedChar);
   if (chars.includes(clickedChar)) {
@@ -110,7 +110,7 @@ function mainPlay(e) {
     correctCharArr.push(clickedChar);
     //compare content of correctCharArr with selectedWordArr, if identical report WIN!
     checkWin(correctCharArr, selectedWordArr);
-    replacePlaceholder(clickedChar, selectedWord);
+    showPlaceholder(clickedChar, selectedWord);
 
   } else {
     console.log(`Sorry, there is no ${clickedChar} in my word.`); //should output this in html
@@ -136,16 +136,16 @@ function getClickedChars() {
   console.log(text, typeof (text));
   return text.slice(-1); //slice -1 to get last char
 }
-
+/* 
 function displayPlaceholder(rndWord) {
   //displays underscores for every character in the word (separated by whitespace)
   const el = document.querySelector(".container3");
   const chosenWord = rndWord;
-  el.innerText = placeholder; //el.innerHTML
-}
+  el.innerHTML = `<p>Secret word: ${placeholder}</p>`; //el.innerHTML
+} */
 
 //replaces underscores in word placeholder with correctly guessed chars
-function replacePlaceholder(char = '#', rndWord) {  //could just parse in random word arr
+function showPlaceholder(char, rndWord) {  //could just parse in random word arr
   const rndWordArr = Array.from(rndWord);
   const indexArr = [];
   const el = document.querySelector(".container3");
@@ -160,7 +160,7 @@ function replacePlaceholder(char = '#', rndWord) {  //could just parse in random
   for (id of indexArr) {
     placeholderArr[id] = char;
   };              // replace _ with char at idxs in indexArr
-  el.innerText = placeholderArr.join(' ');
+  el.innerHTML = `<p>Secret word: ${placeholderArr.join(' ')}</p>`;
 }
 
 //selects random word from loaded word dict
@@ -247,7 +247,8 @@ button.innerText = 'Start';
 
 const gameArrowFunc = () => {
   initGame();
-  displayPlaceholder(selectedWord);
+ // displayPlaceholder(selectedWord);
+ showPlaceholder('',selectedWord);
 };
 
 button.addEventListener("click", gameArrowFunc);
