@@ -116,6 +116,7 @@ function mainPlay(e) {
     console.log(`Sorry, there is no ${clickedChar} in my word.`); //should output this in html
     wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount);
   };
+  e.target.removeEventListener('click', mainPlay);
 }
 
 function checkWin(guessArr = correctCharArr, wordArr = selectedWordArr) {
@@ -224,6 +225,7 @@ function keypressHandler(e) {
   } else {
     userWordArr.push(userWord);
   };
+  e.target.removeEventListener('keypress', keypressHandler);
 }
 
 
