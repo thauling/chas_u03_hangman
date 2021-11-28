@@ -66,7 +66,7 @@ html .container1 {
     overflow: hidden; */
   body {
     width: 95%;
-    color: yellow;
+    color: white;
     margin: 0 auto 0 auto;
     height: 100%;
     overflow: hidden;
@@ -89,7 +89,7 @@ html .container1 {
     overflow: hidden; */
   body {
     width: 95%;
-    color: red;
+    color: white;
     margin: 0 auto 0 auto;
     height: 100%;
     overflow: hidden;
@@ -103,7 +103,6 @@ html .container1 {
     -ms-grid-row: 1;
     -ms-grid-row-span: 1;
     grid-row: 1 / span 1;
-    border: 1px solid;
   }
   .button-container h1 {
     margin-top: 0px;
@@ -117,7 +116,6 @@ html .container1 {
   .output-container .container1 {
     /* grid-column: 1 / span 1;
       grid-row: 2 / span 1; */
-    border: 1px solid;
     margin: 0 auto 0 auto;
   }
   .output-container .container1 img {
@@ -127,7 +125,6 @@ html .container1 {
   .output-container .textout-container {
     /* grid-column: 2 / span 1;            //not working ideally, better use flex?
         grid-row: 2 / span 1; */
-    border: 1px solid;
     margin: 0 auto 0 auto;
   }
 }

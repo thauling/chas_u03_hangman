@@ -98,25 +98,26 @@ function mainPlay(e) {
   const clickedChar = getClickedChars();
   console.log(clickedChar);
   if (chars.includes(clickedChar)) {
-    alert(`You have already used ${clickedChar}. There are ${lettersArr.length - chars.length} to choose from...`);
+    alert(`You have already used ${clickedChar}. There are ${lettersArr.length - chars.length} other letters to choose from...`);
   } else {
     chars.push(clickedChar);
-  };
-  // replace _ with Char if present)
-  console.log(chars);
-  if (selectedWord.includes(clickedChar)) {
-    console.log(`Congrats, my word does contain ${clickedChar}.`); //should output this in html
-    //store correct chars in global array
-    correctCharArr.push(clickedChar);
-    //compare content of correctCharArr with selectedWordArr, if identical report WIN!
-    checkWin(correctCharArr, selectedWordArr);
-    showPlaceholder(clickedChar, selectedWord);
+    // replace _ with Char if present)
+    console.log(chars);
+    if (selectedWord.includes(clickedChar)) {
+      console.log(`Congrats, my word does contain ${clickedChar}.`); //should output this in html
+      //store correct chars in global array
+      correctCharArr.push(clickedChar);
+      //compare content of correctCharArr with selectedWordArr, if identical report WIN!
+      checkWin(correctCharArr, selectedWordArr);
+      showPlaceholder(clickedChar, selectedWord);
+      //e.target.removeEventListener('click', mainPlay);
 
-  } else {
-    console.log(`Sorry, there is no ${clickedChar} in my word.`); //should output this in html
-    wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount);
+    } else {
+      console.log(`Sorry, there is no ${clickedChar} in my word.`); //should output this in html
+      wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount);
+    };
   };
-  e.target.removeEventListener('click', mainPlay);
+  //e.target.removeEventListener('click', mainPlay);
 }
 
 function checkWin(guessArr = correctCharArr, wordArr = selectedWordArr) {
@@ -137,13 +138,6 @@ function getClickedChars() {
   console.log(text, typeof (text));
   return text.slice(-1); //slice -1 to get last char
 }
-/* 
-function displayPlaceholder(rndWord) {
-  //displays underscores for every character in the word (separated by whitespace)
-  const el = document.querySelector(".container3");
-  const chosenWord = rndWord;
-  el.innerHTML = `<p>Secret word: ${placeholder}</p>`; //el.innerHTML
-} */
 
 //replaces underscores in word placeholder with correctly guessed chars
 function showPlaceholder(char, rndWord) {  //could just parse in random word arr
@@ -220,12 +214,13 @@ function keypressHandler(e) {
 
   if (userWord === selectedWord) {
     alert(`${userWord} is correct, Congrats!`);
+    e.target.removeEventListener('keypress', keypressHandler);
     resetGame();
 
   } else {
     userWordArr.push(userWord);
   };
-  e.target.removeEventListener('keypress', keypressHandler);
+  //e.target.removeEventListener('keypress', keypressHandler);
 }
 
 
@@ -249,8 +244,8 @@ button.innerText = 'Start';
 
 const gameArrowFunc = () => {
   initGame();
- // displayPlaceholder(selectedWord);
- showPlaceholder('',selectedWord);
+  // displayPlaceholder(selectedWord);
+  showPlaceholder('', selectedWord);
 };
 
 button.addEventListener("click", gameArrowFunc);
