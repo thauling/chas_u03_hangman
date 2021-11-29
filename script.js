@@ -98,40 +98,59 @@ function mainPlay(e) {
   const clickedChar = getClickedChars();
   console.log(clickedChar);
   if (chars.includes(clickedChar)) {
-    alert(`You have already used ${clickedChar}. There are ${lettersArr.length - chars.length} other letters to choose from...`);
+    wordDisplay.innerHTML = `<p>You have already used "${clickedChar}".<br> There are still ${lettersArr.length - chars.length} other letters 
+    to choose<br> from...</P>`;
   } else {
     chars.push(clickedChar);
     // replace _ with Char if present)
     console.log(chars);
     if (selectedWord.includes(clickedChar)) {
-      console.log(`Congrats, my word does contain ${clickedChar}.`); //should output this in html
+      //console.log(`Congrats, my word does contain ${clickedChar}.`); //should output this in html
       //store correct chars in global array
       correctCharArr.push(clickedChar);
       //compare content of correctCharArr with selectedWordArr, if identical report WIN!
-      checkWin(correctCharArr, selectedWordArr);
+      
       showPlaceholder(clickedChar, selectedWord);
+      checkWin();
       //e.target.removeEventListener('click', mainPlay);
 
     } else {
-      console.log(`Sorry, there is no ${clickedChar} in my word.`); //should output this in html
+     // console.log(`Sorry, there is no ${clickedChar} in my word.`); //should output this in html
+      wordDisplay.innerHTML = `<p>Sorry, there is no "${clickedChar}" in my word.</p>`;
       wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount);
     };
   };
-  //e.target.removeEventListener('click', mainPlay);
+
+  function checkWin() {
+    if (selectedWordArr.every(e => correctCharArr.includes(e))) {
+      wordDisplay.innerHTML += `<p>Super, you guessed all letters!</p>`; //not updating, why?
+      //alert('Congrats, you guessed all characters'); //this works nut bad UX
+      //location.reload();
+      resetGame();
+    } else {
+      console.log('loose');
+      wordDisplay.innerHTML += `<p>"${clickedChar}" in my word but some letters are still missing.</p>`; 
+    };
+  } 
 }
 
-function checkWin(guessArr = correctCharArr, wordArr = selectedWordArr) {
-  if (wordArr.every(e => guessArr.includes(e))) {
-    wordDisplay.innerHTML += `<p>Congrats, you guessed all characters</p>`; //not updating, why?
-    alert('Congrats, you guessed all characters'); //this works
-    location.reload();
-    //resetGame();
-  } else {
-    console.log('loose');
-  };
-  // could probably also use this:
-  // JSON.stringify(wordArr) === JSON.stringify(guessArr) ? ...
+//selects random word from loaded word dict
+function returnRndWord(arr) {
+  //code here
+  const rndIndex = Math.floor(Math.random() * arr.length);
+  return arr[rndIndex].toUpperCase(); //.toUppercase so that lettercase in word and clicked chars matches
 }
+
+// shows (initial) cartoon of hangman
+function displayCartoon(startImg) {
+  const img = document.createElement("IMG");
+  img.setAttribute("src", startImg); //alternative to setAttribute?
+  //img.setAttribute("width", "100");
+  //img.setAttribute("height", "auto");
+  img.setAttribute("alt", "Hangman cartoon");
+  hungMan.appendChild(img);
+}
+
 
 //helper function to get clicked chars
 function getClickedChars() {
@@ -157,25 +176,8 @@ function showPlaceholder(char, rndWord) {  //could just parse in random word arr
   for (id of indexArr) {
     placeholderArr[id] = char;
   };              // replace _ with char at idxs in indexArr
- // el.innerHTML = `<p>Secret word: ${placeholderArr.join(' ')}</p>`;
+  // el.innerHTML = `<p>Secret word: ${placeholderArr.join(' ')}</p>`;
   wordDisplay.innerHTML = `<p>Secret word: ${placeholderArr.join(' ')}</p>`;
-}
-
-//selects random word from loaded word dict
-function returnRndWord(arr) {
-  //code here
-  const rndIndex = Math.floor(Math.random() * arr.length);
-  return arr[rndIndex].toUpperCase(); //.toUppercase so that lettercase in word and clicked chars matches
-}
-
-// shows (initial) cartoon of hangman
-function displayCartoon(startImg) {
-  const img = document.createElement("IMG");
-  img.setAttribute("src", startImg); //alternative to setAttribute?
-  //img.setAttribute("width", "100");
-  //img.setAttribute("height", "auto");
-  img.setAttribute("alt", "Hangman cartoon");
-  hungMan.appendChild(img);
 }
 
 function advanceHangMan(images, wrongGuesses) {
@@ -203,30 +205,47 @@ function guessWord(word) {
   // e.preventDefault();
   // const word = selectedWord;
   const inputField = document.createElement("input");
-  gameButtons.append(inputField);
+  const submitBtn = document.createElement("button");
+ 
   inputField.type = "text";
   inputField.name = "inputGuess";
   inputField.placeholder = "Guess the word!";
+  submitBtn.type = "submit";
+  submitBtn.name = "Submit button";
+  submitBtn.innerText = "Submit";
+  gameButtons.append(inputField, submitBtn);
   //inputField.style = "background-color: black"; //for testing
-  inputField.addEventListener('keypress', keypressHandler); //perhaps add submitBtn instead? !!
+  submitBtn.addEventListener('click', clickHandler); 
+
+  function clickHandler(e) {                      //e
+    const userWord = inputField.value.toUpperCase();  
+    console.log(userWord, selectedWord);
+    if (userWord === selectedWord) {
+     
+      wordDisplay.innerHTML = `<p>Secret word: ${userWord}</p>`;
+      wordDisplay.innerHTML += `<p>${userWord} is correct, Congrats!</P>`;
+      e.target.removeEventListener('click', clickHandler);
+      resetGame();
+
+    } else {
+      userWordArr.push(userWord);
+      wordDisplay.innerHTML += `<p>${userWord} is not correct, Sorry!</P>`;
+      wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount);
+    };
+   
+  }
 }
-
-function keypressHandler(e) {
-  const userWord = e.target.value.toUpperCase();
-  console.log(userWord, selectedWord);
-
-  if (userWord === selectedWord) {
-    //const el = document.querySelector(".container3"); //could also be global const
-    wordDisplay.innerHTML = `<p>Secret word: ${userWord}</p>`;
-    wordDisplay.innerHTML += `<p>${userWord} is correct, Congrats!</P>`;
-    e.target.removeEventListener('keypress', keypressHandler);
+/* 
+function checkWin(guessArr = correctCharArr, wordArr = selectedWordArr) {
+  if (wordArr.every(e => guessArr.includes(e))) {
+    wordDisplay.innerHTML += `<p>Congrats, you guessed all characters</p>`; //not updating, why?
+    //alert('Congrats, you guessed all characters'); //this works nut bad UX
+    //location.reload();
     resetGame();
-
   } else {
-    userWordArr.push(userWord);
+    console.log('loose');
   };
-  //e.target.removeEventListener('keypress', keypressHandler);
-}
+} */
 
 
 //resets the game
