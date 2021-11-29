@@ -281,7 +281,11 @@ console.dir(document);
 
 //report if character has been used! fixed!
 
-//in HTML, show chars array instead of ALL clicked chars !
+///////////////////////////////////
+// FIX use of selected/ rnd word array / string in functions - make functions CONSISTENT!
+//////////////////////
+
+// (in HTML, show chars array instead of ALL clicked chars !)
 
 //show word if not guessed! fixd!
 
