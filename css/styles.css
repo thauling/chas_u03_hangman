@@ -125,7 +125,11 @@ html .container1 {
   .output-container .textout-container {
     /* grid-column: 2 / span 1;            //not working ideally, better use flex?
         grid-row: 2 / span 1; */
-    margin: 0 auto 0 auto;
+    margin: 0 1rem 0 auto;
+  }
+  .output-container .container3 {
+    -ms-grid-column-align: end;
+        justify-self: end;
   }
 }
 /*# sourceMappingURL=styles.css.map */

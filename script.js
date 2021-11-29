@@ -122,8 +122,10 @@ function mainPlay(e) {
 
 function checkWin(guessArr = correctCharArr, wordArr = selectedWordArr) {
   if (wordArr.every(e => guessArr.includes(e))) {
-    alert('Congrats, you guessed all characters');
-    resetGame();
+    wordDisplay.innerHTML += `<p>Congrats, you guessed all characters</p>`; //not updating, why?
+    alert('Congrats, you guessed all characters'); //this works
+    location.reload();
+    //resetGame();
   } else {
     console.log('loose');
   };
@@ -143,7 +145,7 @@ function getClickedChars() {
 function showPlaceholder(char, rndWord) {  //could just parse in random word arr
   const rndWordArr = Array.from(rndWord);
   const indexArr = [];
-  const el = document.querySelector(".container3");
+  //const el = document.querySelector(".container3"); //could also be global const
   let idx = rndWordArr.indexOf(char);
   while (idx != -1) {                           //while loop since easiest? way to loop over 1 or more occurances
     correctCharArr.push(char);                     //correctCharArr is global, could return char and add to userWordArr in global space 
@@ -155,7 +157,8 @@ function showPlaceholder(char, rndWord) {  //could just parse in random word arr
   for (id of indexArr) {
     placeholderArr[id] = char;
   };              // replace _ with char at idxs in indexArr
-  el.innerHTML = `<p>Secret word: ${placeholderArr.join(' ')}</p>`;
+ // el.innerHTML = `<p>Secret word: ${placeholderArr.join(' ')}</p>`;
+  wordDisplay.innerHTML = `<p>Secret word: ${placeholderArr.join(' ')}</p>`;
 }
 
 //selects random word from loaded word dict
@@ -189,7 +192,7 @@ function advanceHangMan(images, wrongGuesses) {
     wrongGuesses += 1;
   } else { //place that img element inside hungMan (defined outside of func (should be inside?))
     //console.log('Game OVER!');
-    alert(`Game OVER! The secret word was ${selectedWord}.`);
+    wordDisplay.innerHTML += `<p class="game-over">Game OVER!<br> The secret word was ${selectedWord}.</p>`;
     resetGame();
   };
   return wrongGuesses;
@@ -213,7 +216,9 @@ function keypressHandler(e) {
   console.log(userWord, selectedWord);
 
   if (userWord === selectedWord) {
-    alert(`${userWord} is correct, Congrats!`);
+    //const el = document.querySelector(".container3"); //could also be global const
+    wordDisplay.innerHTML = `<p>Secret word: ${userWord}</p>`;
+    wordDisplay.innerHTML += `<p>${userWord} is correct, Congrats!</P>`;
     e.target.removeEventListener('keypress', keypressHandler);
     resetGame();
 
@@ -226,8 +231,12 @@ function keypressHandler(e) {
 
 //resets the game
 function resetGame() {
-  const answer = Number(window.prompt("Wanna play again? Enter 1 for yes, anything else for no")); //should add ok button instead
-  answer === 1 ? location.reload() : alert("Bummer!"); // wrongGuesses = 0 : alert("Bummer!");
+  //const answer = Number(window.prompt("Wanna play again? Enter 1 for yes, anything else for no")); //should add ok button instead
+  const resetBtn = document.createElement('button');
+  wordDisplay.appendChild(resetBtn);
+  resetBtn.textContent = 'Click me to play again';
+  resetBtn.addEventListener('click', () => location.reload());
+  //answer === 1 ? location.reload() : alert("Bummer!"); // wrongGuesses = 0 : alert("Bummer!");
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
