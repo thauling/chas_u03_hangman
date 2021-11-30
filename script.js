@@ -33,7 +33,19 @@ Eighth: Connect the head to the post with a "noose." Once you draw the noose the
 // import word from words.js to test if import works
 //const word = wordArr[0]; //wordArr is in words.js
 //console.log(word);
+// store guess words that have been chosen 
+const usedWordsArr = [];
+// kepp track of wromg guesses at end of game
+const scoreArr = [];
+// generate global guess word from randomly selecting word from array (string ar array)
 
+superFunc(); //this needs more thinking, too tired right now
+
+function superFunc () {
+
+  
+// init MAIN PROGRAM
+initGame();
 // import array of hangman images
 const startImage = ["./images/0.svg"];
 const imageUrlArr = ["./images/1.svg", "./images/2.svg", "./images/3.svg", "./images/4.svg", "./images/5.svg",
@@ -223,7 +235,7 @@ function showPlaceholder(char, rndWord) {  //could just parse in random word arr
 }
 
 function advanceHangMan(images, wrongGuesses) {
-  //if called show next image of hangman array, add 1 to wrong guesses and returns that value, 
+  //if called show next image of hangman array, add 1 to wrong guesses and return that value, 
   //keeps track of wrong attempts
   let frame;
   const img = document.querySelector("img");
@@ -249,7 +261,7 @@ function advanceHangMan(images, wrongGuesses) {
 };
 
 //resets the game
-function resetGame() {
+function resetGame(e) {
   //keyboard.removeEventListener("click", mainPlay); //How to remove this eventListener?
   const resetBtn = document.createElement('button');
   messageDisplay.appendChild(resetBtn);
@@ -266,10 +278,10 @@ function resetGame() {
     initGame();
   })   */
 };
-
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// START MAIN PROGRAM
-initGame();
+/* // START MAIN PROGRAM
+initGame(); */
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
