@@ -118,7 +118,7 @@ function mainPlay(e) {
   const clickedChar = getClickedChars();
   console.log(clickedChar);
   if (chars.includes(clickedChar)) {
-    wordDisplay.innerHTML = `<p>You have already used "${clickedChar}".<br> There are still ${lettersArr.length - chars.length} other letters 
+    messageDisplay.innerHTML = `<p>You have already used "${clickedChar}".<br> There are still ${lettersArr.length - chars.length} other letters 
     to choose<br> from...</P>`;
   } else {
     chars.push(clickedChar);
@@ -136,20 +136,20 @@ function mainPlay(e) {
 
     } else {
       // console.log(`Sorry, there is no ${clickedChar} in my word.`); //should output this in html
-      wordDisplay.innerHTML = `<p>Sorry, there is no "${clickedChar}" in my word.</p>`;
+      messageDisplay.innerHTML = `<p>Sorry, there is no "${clickedChar}" in my word.</p>`;
       wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount);
     };
   }
 
   function checkWin() {
     if (selectedWordArr.every(e => correctCharArr.includes(e))) {
-      wordDisplay.innerHTML += `<p>Super, you guessed all letters!</p>`;
+      messageDisplay.innerHTML = `<p>Super, you guessed all letters!</p>`;
       //alert('Congrats, you guessed all characters'); //this works nut bad UX
 
       resetGame();
     } else {
       //console.log('loose');
-      wordDisplay.innerHTML += `<p>"${clickedChar}" in my word but some letters are still missing.</p>`;
+      messageDisplay.innerHTML = `<p>"${clickedChar}" in my word but some letters are still missing.</p>`;
     };
   }
 }
@@ -213,7 +213,7 @@ function advanceHangMan(images, wrongGuesses) {
     wrongGuesses += 1;
   } else { //place that img element inside hungMan (defined outside of func (should be inside?))
     //console.log('Game OVER!');
-    wordDisplay.innerHTML += `<p class="game-over">Game OVER!<br> The secret word was ${selectedWord}.</p>`;
+    messageDisplay.innerHTML += `<p class="game-over">Game OVER!<br> The secret word was ${selectedWord}.</p>`;
     resetGame();
   };
   return wrongGuesses;
@@ -242,13 +242,13 @@ function guessWord(word) {                                //fix display if wrong
     if (userWord === selectedWord) {
 
       wordDisplay.innerHTML = `<p>Secret word: ${userWord}</p>`;
-      wordDisplay.innerHTML += `<p>${userWord} is correct, Congrats!</P>`;
+      messageDisplay.innerHTML = `<p>${userWord} is correct, congrats!</P>`;
       e.target.removeEventListener('click', clickHandler);
       resetGame();
 
     } else {
       userWordArr.push(userWord);
-      wordDisplay.innerHTML = `<p>${userWord} is not correct, Sorry!</P>`; //+=
+      messageDisplay.innerHTML = `<p>${userWord} is not correct, Sorry!</P>`; //+=
       wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount);
     };
 
@@ -259,7 +259,7 @@ function guessWord(word) {                                //fix display if wrong
 function resetGame() {
 
   const resetBtn = document.createElement('button');
-  wordDisplay.appendChild(resetBtn);
+  messageDisplay.appendChild(resetBtn);
   resetBtn.textContent = 'Click me to play again';
   resetBtn.addEventListener('click', () => location.reload()); //location.reload() //need to remove some elements and reset global vars before initGame()
   //answer === 1 ? location.reload() : alert("Bummer!"); // wrongGuesses = 0 : alert("Bummer!");
