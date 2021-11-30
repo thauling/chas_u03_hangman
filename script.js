@@ -90,7 +90,16 @@ function initGame() {
   startBtn.innerText = 'Start';
   gameButtons.appendChild(startBtn);
   startBtn.addEventListener("click", startGame); //arrow func defined so that EventListener can be removed
-  
+
+  function displayCartoon(startImg) {
+    const img = document.createElement("IMG");
+    img.setAttribute("src", startImg); //alternative to setAttribute?
+    //img.setAttribute("width", "100");
+    //img.setAttribute("height", "auto");
+    img.setAttribute("alt", "Hangman cartoon");
+    hungMan.appendChild(img);
+  }
+
 }
 
 function startGame(e) {
@@ -108,11 +117,47 @@ function startGame(e) {
     //letterBtn.addEventListener("click", mainPlay);
   });
   keyboard.addEventListener("click", mainPlay);
-  showPlaceholder('', selectedWord);
+  showPlaceholder('', selectedWord); //has to be in startGame() to display placeholder after click
+
+  function guessWord() {
+    // e.preventDefault();
+    // const word = selectedWord;
+    const inputField = document.createElement("input");
+    const submitBtn = document.createElement("button");
+  
+    inputField.type = "text";
+    inputField.name = "inputGuess";
+    inputField.placeholder = "Guess the word!";
+    submitBtn.type = "submit";
+    submitBtn.name = "Submit button";
+    submitBtn.innerText = "Submit";
+    gameButtons.append(inputField, submitBtn);
+    //inputField.style = "background-color: black"; //for testing
+    submitBtn.addEventListener('click', clickHandler);
+  
+    function clickHandler(e) {                      //e
+      const userWord = inputField.value.toUpperCase();
+      console.log(userWord, selectedWord);
+      if (userWord === selectedWord) {
+  
+        wordDisplay.innerHTML = `<p>Secret word: ${userWord}</p>`;
+        messageDisplay.innerHTML = `<p>${userWord} is correct, congrats!</P>`;
+        e.target.removeEventListener('click', clickHandler);
+        resetGame();
+  
+      } else {
+        userWordArr.push(userWord);
+        messageDisplay.innerHTML = `<p>${userWord} is not correct, Sorry!</P>`; //+=
+        wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount);
+      };
+  
+    }
+  }
 }
 
 function mainPlay(e) {
-  console.log(e.target.innerText);
+  //showPlaceholder('', selectedWord);
+  //console.log(e.target.innerText);
   pickedLetter.innerHTML = `<p>Chosen letter: ${e.target.innerText}</p>`;//item; //e.target.innerText; //displays ALL chars, leave in for now but remove later or just console.log it
   const clickedChar = getClickedChars();
   console.log(clickedChar);
@@ -148,7 +193,16 @@ function mainPlay(e) {
       messageDisplay.innerHTML = `<p>"${clickedChar}" in my word but some letters are still missing.</p>`;
     };
   }
+
+  //helper function to get clicked chars
+  function getClickedChars() {
+    //get text from html element
+    const text = document.querySelector('.container2').textContent.trim();
+    //console.log(text, typeof (text));
+    return text.slice(-1); //slice -1 to get last char
+  }
 }
+
 
 //selects random word from loaded word dict
 function returnRndWord(arr) {
@@ -157,23 +211,23 @@ function returnRndWord(arr) {
 }
 
 // shows (initial) cartoon of hangman  
-function displayCartoon(startImg) {
+/* function displayCartoon(startImg) {
   const img = document.createElement("IMG");
   img.setAttribute("src", startImg); //alternative to setAttribute?
   //img.setAttribute("width", "100");
   //img.setAttribute("height", "auto");
   img.setAttribute("alt", "Hangman cartoon");
   hungMan.appendChild(img);
-}
+} */
 
-
+/* 
 //helper function to get clicked chars
 function getClickedChars() {
   //get text from html element
   const text = document.querySelector('.container2').textContent.trim();
   //console.log(text, typeof (text));
   return text.slice(-1); //slice -1 to get last char
-}
+} */
 
 //replaces underscores in word placeholder with correctly guessed chars
 function showPlaceholder(char, rndWord) {  //could just parse in random word arr
@@ -198,7 +252,7 @@ function advanceHangMan(images, wrongGuesses) {
   let frame;
   const img = document.querySelector("img");
   //advances hangman and reports Game Over on final frame of images
-  if (wrongGuesses < (images.length-1)) {
+  if (wrongGuesses < (images.length - 1)) {
     //console.log('not included in selectedWord');
     frame = images[wrongGuesses];
     //console.log(wrongGuesses);
@@ -206,7 +260,7 @@ function advanceHangMan(images, wrongGuesses) {
     img.setAttribute("alt", "Hangman cartoon");
     hungMan.replaceChild(img, img); //instead of hungMan.appendChild(img) - seems like better pogramming practise?
     wrongGuesses += 1;
-  } else { 
+  } else {
     //console.log('Game OVER!');
     frame = images[wrongGuesses];
     img.setAttribute("src", frame);
@@ -219,7 +273,7 @@ function advanceHangMan(images, wrongGuesses) {
 };
 
 //keeps track of word guesses and correctly guessed chars, returns WIN if all chars in word or word have been guessed 
-function guessWord() {                               
+/* function guessWord() {
   // e.preventDefault();
   // const word = selectedWord;
   const inputField = document.createElement("input");
@@ -252,7 +306,7 @@ function guessWord() {
     };
 
   }
-}
+} */
 
 //resets the game
 function resetGame() {
