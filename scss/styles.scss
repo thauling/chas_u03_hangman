@@ -45,6 +45,10 @@ html {
     display: flex;
     justify-content: flex-end;
   }
+
+  h1, .game-over {
+      font-family: 'Rye',serif;
+  }
 }
 
 @media screen and (max-height: 800px) {
