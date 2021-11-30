@@ -54,7 +54,8 @@ const userWordArr = [];
 const correctCharArr = [];
 // store guess words that have been chosen 
 const usedWordsArr = [];
-
+// kepp track of wromg guesses at end of game
+const scoreArr = [];
 // generate global guess word from randomly selecting word from array (string ar array)
 let selectedWord = returnRndWord(wordArr);
 const selectedWordArr = Array.from(selectedWord);
@@ -65,6 +66,7 @@ const placeholderArr = Array.from(selectedWord.replace(regex, '_'));
 
 // frontend for keys
 const gameButtons = document.querySelector(".game-buttons");
+const button = document.createElement("button");
 // buttons for game navigation
 const letterPosition = document.querySelector(".letter-buttons");
 // frontend for displaying chosen letter
@@ -73,11 +75,27 @@ const pickedLetter = document.querySelector(".container2");
 const hungMan = document.querySelector(".container1");
 // frontend for showing underscore-placeholders for word
 const wordDisplay = document.querySelector(".container3");
-//lettersArr.forEach(letter => letterPosition.innerHTML += letter);
-
+// create global img const so that it can be accessed from all funcs and images created and removed
+const img = document.createElement("IMG");
 /////////////////////////////////////////////////////// global functions /////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function initGame() {
+const gameArrowFunc = () => {
+  startGame();
+  // displayPlaceholder(selectedWord);
+  showPlaceholder('', selectedWord);
+};
+
+function initGame() {                                     
+  //show initial cartoon (0 wrong Guesses)
+  displayCartoon(startImage);
+  //start game, create keyboard and reveal clicked characters
+  //const button = document.createElement("button");
+  gameButtons.appendChild(button);
+  button.innerText = 'Start';
+  button.addEventListener("click", gameArrowFunc); //arrow func defined so that EventListener can be removed
+}
+
+function startGame() {
   //remove start button and its eventlistener since not needed any more
   button.removeEventListener('click', gameArrowFunc);
   button.remove();
@@ -109,13 +127,13 @@ function mainPlay(e) {
       //store correct chars in global array
       correctCharArr.push(clickedChar);
       //compare content of correctCharArr with selectedWordArr, if identical report WIN!
-      
+
       showPlaceholder(clickedChar, selectedWord);
       checkWin();
       //e.target.removeEventListener('click', mainPlay);
 
     } else {
-     // console.log(`Sorry, there is no ${clickedChar} in my word.`); //should output this in html
+      // console.log(`Sorry, there is no ${clickedChar} in my word.`); //should output this in html
       wordDisplay.innerHTML = `<p>Sorry, there is no "${clickedChar}" in my word.</p>`;
       wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount);
     };
@@ -123,15 +141,15 @@ function mainPlay(e) {
 
   function checkWin() {
     if (selectedWordArr.every(e => correctCharArr.includes(e))) {
-      wordDisplay.innerHTML += `<p>Super, you guessed all letters!</p>`; //not updating, why?
+      wordDisplay.innerHTML += `<p>Super, you guessed all letters!</p>`;
       //alert('Congrats, you guessed all characters'); //this works nut bad UX
-      //location.reload();
+
       resetGame();
     } else {
       console.log('loose');
-      wordDisplay.innerHTML += `<p>"${clickedChar}" in my word but some letters are still missing.</p>`; 
+      wordDisplay.innerHTML += `<p>"${clickedChar}" in my word but some letters are still missing.</p>`;
     };
-  } 
+  }
 }
 
 //selects random word from loaded word dict
@@ -141,9 +159,9 @@ function returnRndWord(arr) {
   return arr[rndIndex].toUpperCase(); //.toUppercase so that lettercase in word and clicked chars matches
 }
 
-// shows (initial) cartoon of hangman
+// shows (initial) cartoon of hangman  
 function displayCartoon(startImg) {
-  const img = document.createElement("IMG");
+  //const img = document.createElement("IMG");
   img.setAttribute("src", startImg); //alternative to setAttribute?
   //img.setAttribute("width", "100");
   //img.setAttribute("height", "auto");
@@ -155,7 +173,7 @@ function displayCartoon(startImg) {
 //helper function to get clicked chars
 function getClickedChars() {
   //get text from html element
-  let text = document.querySelector('.container2').textContent.trim(); //trim() to remove white space, shoudl use innerText instead to JUST get the text
+  let text = document.querySelector('.container2').textContent.trim();
   console.log(text, typeof (text));
   return text.slice(-1); //slice -1 to get last char
 }
@@ -206,7 +224,7 @@ function guessWord(word) {
   // const word = selectedWord;
   const inputField = document.createElement("input");
   const submitBtn = document.createElement("button");
- 
+
   inputField.type = "text";
   inputField.name = "inputGuess";
   inputField.placeholder = "Guess the word!";
@@ -215,13 +233,13 @@ function guessWord(word) {
   submitBtn.innerText = "Submit";
   gameButtons.append(inputField, submitBtn);
   //inputField.style = "background-color: black"; //for testing
-  submitBtn.addEventListener('click', clickHandler); 
+  submitBtn.addEventListener('click', clickHandler);
 
   function clickHandler(e) {                      //e
-    const userWord = inputField.value.toUpperCase();  
+    const userWord = inputField.value.toUpperCase();
     console.log(userWord, selectedWord);
     if (userWord === selectedWord) {
-     
+
       wordDisplay.innerHTML = `<p>Secret word: ${userWord}</p>`;
       wordDisplay.innerHTML += `<p>${userWord} is correct, Congrats!</P>`;
       e.target.removeEventListener('click', clickHandler);
@@ -232,52 +250,31 @@ function guessWord(word) {
       wordDisplay.innerHTML += `<p>${userWord} is not correct, Sorry!</P>`;
       wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount);
     };
-   
+
   }
 }
-/* 
-function checkWin(guessArr = correctCharArr, wordArr = selectedWordArr) {
-  if (wordArr.every(e => guessArr.includes(e))) {
-    wordDisplay.innerHTML += `<p>Congrats, you guessed all characters</p>`; //not updating, why?
-    //alert('Congrats, you guessed all characters'); //this works nut bad UX
-    //location.reload();
-    resetGame();
-  } else {
-    console.log('loose');
-  };
-} */
-
 
 //resets the game
 function resetGame() {
-  //const answer = Number(window.prompt("Wanna play again? Enter 1 for yes, anything else for no")); //should add ok button instead
   const resetBtn = document.createElement('button');
   wordDisplay.appendChild(resetBtn);
   resetBtn.textContent = 'Click me to play again';
-  resetBtn.addEventListener('click', () => location.reload());
+  resetBtn.addEventListener('click', () => location.reload()); //location.reload() //need to remove some elements and reset global vars before initGame()
   //answer === 1 ? location.reload() : alert("Bummer!"); // wrongGuesses = 0 : alert("Bummer!");
+  // stuff below still has issues
+  /* resetBtn.addEventListener('click', () => {
+    scoreArr.push(wrongGuessCount);
+    wordDisplay.innerHTML = ""; 
+    wrongGuessCount = 0;
+    resetBtn.remove();
+    img.remove();
+    initGame();
+  })   */
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //main program loop, let instead of const so they can be reset
-
-//show initial cartoon (0 wrong Guesses)
-displayCartoon(startImage);
-//advanceHangMan(imageUrlArr, 1);
-
-//start game, create keyboard and reveal clicked characters
-const button = document.createElement("button");
-gameButtons.appendChild(button);
-button.innerText = 'Start';
-
-const gameArrowFunc = () => {
-  initGame();
-  // displayPlaceholder(selectedWord);
-  showPlaceholder('', selectedWord);
-};
-
-button.addEventListener("click", gameArrowFunc);
-
+initGame();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
