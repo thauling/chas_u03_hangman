@@ -66,7 +66,7 @@ const placeholderArr = Array.from(selectedWord.replace(regex, '_'));
 
 // frontend for keys
 const gameButtons = document.querySelector(".game-buttons");
-const button = document.createElement("button");
+const startBtn = document.createElement("button");
 // buttons for game navigation
 const letterPosition = document.querySelector(".letter-buttons");
 // frontend for displaying chosen letter
@@ -75,6 +75,8 @@ const pickedLetter = document.querySelector(".container2");
 const hungMan = document.querySelector(".container1");
 // frontend for showing underscore-placeholders for word
 const wordDisplay = document.querySelector(".container3");
+// frontend for showing messages
+const messageDisplay = document.querySelector(".container4"); //better start branch for this
 // create global img const so that it can be accessed from all funcs and images created and removed
 const img = document.createElement("IMG");
 /////////////////////////////////////////////////////// global functions /////////////////////////////////////////////////////
@@ -85,28 +87,28 @@ const gameArrowFunc = () => {
   showPlaceholder('', selectedWord);
 };
 
-function initGame() {                                     
+function initGame() {
   //show initial cartoon (0 wrong Guesses)
   displayCartoon(startImage);
   //start game, create keyboard and reveal clicked characters
   //const button = document.createElement("button");
-  gameButtons.appendChild(button);
-  button.innerText = 'Start';
-  button.addEventListener("click", gameArrowFunc); //arrow func defined so that EventListener can be removed
+  startBtn.innerText = 'Start';
+  startBtn.addEventListener("click", gameArrowFunc); //arrow func defined so that EventListener can be removed
+  gameButtons.appendChild(startBtn);
 }
 
 function startGame() {
   //remove start button and its eventlistener since not needed any more
-  button.removeEventListener('click', gameArrowFunc);
-  button.remove();
+  startBtn.removeEventListener('click', gameArrowFunc);
+  startBtn.remove();
   //call guessWord() to show input filed for user guesses instead
   guessWord(selectedWord);
   // create keyboard with alphabetic characters
   lettersArr.map((item) => {
-    const button = document.createElement("button");
-    letterPosition.appendChild(button);
-    button.innerText = item;
-    button.addEventListener("click", mainPlay);
+    const letterBtn = document.createElement("button");
+    letterPosition.appendChild(letterBtn);
+    letterBtn.innerText = item;
+    letterBtn.addEventListener("click", mainPlay);
   });
 }
 
@@ -137,7 +139,7 @@ function mainPlay(e) {
       wordDisplay.innerHTML = `<p>Sorry, there is no "${clickedChar}" in my word.</p>`;
       wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount);
     };
-  };
+  }
 
   function checkWin() {
     if (selectedWordArr.every(e => correctCharArr.includes(e))) {
@@ -146,7 +148,7 @@ function mainPlay(e) {
 
       resetGame();
     } else {
-      console.log('loose');
+      //console.log('loose');
       wordDisplay.innerHTML += `<p>"${clickedChar}" in my word but some letters are still missing.</p>`;
     };
   }
@@ -154,7 +156,6 @@ function mainPlay(e) {
 
 //selects random word from loaded word dict
 function returnRndWord(arr) {
-  //code here
   const rndIndex = Math.floor(Math.random() * arr.length);
   return arr[rndIndex].toUpperCase(); //.toUppercase so that lettercase in word and clicked chars matches
 }
@@ -219,7 +220,7 @@ function advanceHangMan(images, wrongGuesses) {
 };
 
 //keeps track of word guesses and correctly guessed chars, returns WIN if all chars in word or word have been guessed 
-function guessWord(word) {
+function guessWord(word) {                                //fix display if wrong guess word
   // e.preventDefault();
   // const word = selectedWord;
   const inputField = document.createElement("input");
@@ -247,7 +248,7 @@ function guessWord(word) {
 
     } else {
       userWordArr.push(userWord);
-      wordDisplay.innerHTML += `<p>${userWord} is not correct, Sorry!</P>`;
+      wordDisplay.innerHTML = `<p>${userWord} is not correct, Sorry!</P>`; //+=
       wrongGuessCount = advanceHangMan(imageUrlArr, wrongGuessCount);
     };
 
@@ -256,6 +257,7 @@ function guessWord(word) {
 
 //resets the game
 function resetGame() {
+
   const resetBtn = document.createElement('button');
   wordDisplay.appendChild(resetBtn);
   resetBtn.textContent = 'Click me to play again';

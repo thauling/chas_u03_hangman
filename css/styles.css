@@ -26,8 +26,6 @@ html body {
   margin: 0 auto 0 auto;
   height: 100%;
   overflow: hidden;
-  /* display: flex;
-    justify-content: center; */
 }
 
 html img {
@@ -59,20 +57,12 @@ html .container1 {
 }
 
 @media screen and (max-height: 800px) {
-  /*  body {
-    width: 95%;
-    color: white; //to test if mediaq works
-    margin: 0 auto 0 auto;
-    height: 100%;
-    overflow: hidden; */
   body {
     width: 95%;
     color: white;
     margin: 0 auto 0 auto;
     height: 100%;
     overflow: hidden;
-    /* display: flex;
-    justify-content: center; */
   }
   .container1 img {
     width: 400px;
@@ -81,21 +71,12 @@ html .container1 {
 }
 
 @media screen and (max-height: 500px) {
-  /* body {
-    color: red; //to test if mediaq works
-    //display: grid;
-    width: 95%;
-    margin: 0 auto 0 auto;
-    height: 100%;
-    overflow: hidden; */
   body {
     width: 95%;
     color: white;
     margin: 0 auto 0 auto;
     height: 100%;
     overflow: hidden;
-    /* display: flex;
-    justify-content: center; */
   }
   .button-container {
     -ms-grid-column: 1;
@@ -113,14 +94,8 @@ html .container1 {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    /* .container3 {
-        justify-self: end;
-        
-    } */
   }
   .output-container .container1 {
-    /* grid-column: 1 / span 1;
-      grid-row: 2 / span 1; */
     margin: 0 auto 0 auto;
   }
   .output-container .container1 img {
