@@ -197,17 +197,16 @@ function advanceHangMan(images, wrongGuesses) {
   //keeps track of wrong attempts
   let frame;
   const img = document.querySelector("img");
+  //advances hangman and reports Game Over on final frame of images
   if (wrongGuesses < (images.length-1)) {
     //console.log('not included in selectedWord');
     frame = images[wrongGuesses];
     //console.log(wrongGuesses);
-    //const img = document.querySelector("img"); //select previously created img element (displayCartoon()) 
     img.setAttribute("src", frame);
     img.setAttribute("alt", "Hangman cartoon");
-    //hungMan.appendChild(img);
-    hungMan.replaceChild(img, img);
+    hungMan.replaceChild(img, img); //instead of hungMan.appendChild(img) - seems like better pogramming practise?
     wrongGuesses += 1;
-  } else { //place that img element inside hungMan (defined outside of func (should be inside?))
+  } else { 
     //console.log('Game OVER!');
     frame = images[wrongGuesses];
     img.setAttribute("src", frame);
@@ -220,7 +219,7 @@ function advanceHangMan(images, wrongGuesses) {
 };
 
 //keeps track of word guesses and correctly guessed chars, returns WIN if all chars in word or word have been guessed 
-function guessWord() {                                //fix display if wrong guess word
+function guessWord() {                               
   // e.preventDefault();
   // const word = selectedWord;
   const inputField = document.createElement("input");
@@ -257,7 +256,7 @@ function guessWord() {                                //fix display if wrong gue
 
 //resets the game
 function resetGame() {
-
+  //keyboard.removeEventListener("click", mainPlay); //How to remove this eventListener?
   const resetBtn = document.createElement('button');
   messageDisplay.appendChild(resetBtn);
   resetBtn.textContent = 'Click me to play again';
