@@ -45,6 +45,7 @@ html {
   .container1 {
     //border: 3px solid #ccc; //debugging
     position: absolute;
+    right: 0;
     bottom: 0;
     display: flex;
     justify-content: flex-end;
@@ -101,15 +102,12 @@ html {
     }
 
     .textout-container {
-      /* grid-column: 2 / span 1;            //not working ideally, better use flex?
-        grid-row: 2 / span 1; */
-      //border: 1px solid;
-      margin: 0 1rem 0 auto;
+      left: 0;
     }
-    .container3 {
+    /* .container3 {
         justify-self: end;
         
-    }
+    } */
   }
 }
 
