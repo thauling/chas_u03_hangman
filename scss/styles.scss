@@ -55,8 +55,8 @@ html {
   @include bodymixin();
   .container1 {
     img {
-      width: 300px;//400px; 
-      height: auto;
+      width: auto;//400px; 
+      height: 300px;
     }
   }
 }
@@ -77,8 +77,8 @@ html {
     .container1 {
       margin: 0 auto 0 auto;
       img {
-        width: 200px;//250px; 
-        height: auto;
+        width: auto;//250px; 
+        height: 200px;
       }
     }
 

@@ -69,8 +69,8 @@ html h1, html .game-over {
     overflow: hidden;
   }
   .container1 img {
-    width: 400px;
-    height: auto;
+    width: auto;
+    height: 300px;
   }
 }
 
@@ -103,8 +103,8 @@ html h1, html .game-over {
     margin: 0 auto 0 auto;
   }
   .output-container .container1 img {
-    width: 250px;
-    height: auto;
+    width: auto;
+    height: 200px;
   }
   .output-container .textout-container {
     left: 0;
