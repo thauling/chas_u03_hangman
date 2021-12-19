@@ -54,7 +54,7 @@ const userWordArr = [];
 const correctCharArr = [];
 // store guess words that have been chosen 
 //const usedWordsArr = [];
-// kepp track of wromg guesses at end of game
+// keep track of wrong guesses at end of game
 //const scoreArr = [];
 // generate global guess word from randomly selecting word from array (string ar array)
 let selectedWord = returnRndWord(wordArr);
