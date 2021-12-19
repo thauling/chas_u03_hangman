@@ -70,7 +70,7 @@ html h1, html .game-over {
   }
   .container1 img {
     width: auto;
-    height: 300px;
+    height: 200px;
   }
 }
 
@@ -104,7 +104,7 @@ html h1, html .game-over {
   }
   .output-container .container1 img {
     width: auto;
-    height: 200px;
+    height: 150px;
   }
   .output-container .textout-container {
     left: 0;
